@@ -3,7 +3,7 @@
 
 int main() {
     
-    char message [100], ch; // assinging a char data type with ... to limit the string. This will be the text that is encrypted. 
+    char message [100], ch; // assinging a char data type with  length 100. This will be the text that is encrypted. 
                             // ch is just the variable name and can be changed at anytime
     int i, key; // this is the encryption key, the "number of steps left", that the cipher uses. FOr example, a key of 5 will make
                 //a = e, b = f, c = g, e.t.c
