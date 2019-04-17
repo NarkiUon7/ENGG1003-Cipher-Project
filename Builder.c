@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 // Encryption code for Caesar Cipher
-char Caesar_Encrypt( char ch, int i, int key) {
+/*char Caesar_Encrypt( char ch, int i, int key) {
     char message [100], ch
     int i, key;
 
@@ -93,4 +93,4 @@ char *decrypt(char *message, char code[]) {
         }
     }
     return decrypted_message;
-}
+}*/

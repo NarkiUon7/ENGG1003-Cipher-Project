@@ -1,5 +1,8 @@
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 char Caesar_Encrypt( char ch, int i, int key);
 
