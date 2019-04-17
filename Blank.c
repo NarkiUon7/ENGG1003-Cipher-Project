@@ -27,13 +27,27 @@ int main() {
                 break;
          case 2 (input = 2);
             printf("Enter a message to decrypt: \n"); 
-            fgets(message, sizeof(message), stdin);   // 
+            fgets(message, sizeof(message), stdin);   
             printf("Enter a decryption key:  \n");     
             scanf("%d", &key);       
          
             Caesar_Decryption( char ch, int i, int key);
             printf("Decrypted message %s", message);
                 break;
+        case 3 (input = 3);
+             char *message = " Test message";
+             char code[26] = {'b', 'a', 'c', 'd', 's', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 'e', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+             
+             char *encrypted_message = encrypt(message, code);
+             printf(" Original Message: %s\nEncrypted Message: %/s\n", message, encrypted_message);
+             break;
+        case 4 (input = 4);
+             char *message = " Test message";
+             char code[26] = {'b', 'a', 'c', 'd', 's', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 'e', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+             
+             char *decrypted_message = decrypt(encrypted_message, code)
+             printf(" Original Message: %s\nDecrypted Message: %s\n", message, decrypted_message);
+             break;
                 
          default: printf("Please Make Valid Selection")
         }
@@ -42,63 +56,97 @@ int main() {
 //Begninning of Function Definitions
 //With function definitions give fuctions an appropriate name, making sure to comment them well.
 
-   char Caesar_Encrypt( char ch, int i, int key) {
-       
-            char message [100], ch;                             // assinging a char data type with  length 100. This will be the text that is encrypted. 
-                                                                // ch is just the variable name and can be changed at anytime
-            int i, key;                                         // this is the encryption key, the "number of steps left", that the cipher uses. FOr example, a key of 5 will make
-                                                                //a = e, b = f, c = g, e.t.c
-                                                                // i and key are the int values repressenting the letter bring tested and the encryption key respectively
- 
-             for(i = 0; message[i]!='\0'; i++) {           // loop to execute the encryption commands for eact letter of text that the user imputs
-                    ch = message[i];
-                     if (ch >= 'a'&& ch <= 'z') {            // 'a' and 'z' are representitve of the ASCII values of lower case a and z. if the vale for ch is between those two values, 
-                            ch = ch + key;                      // then ch becomes ch plus whatever the encryption key is. These if statements are for testing and enctrypting if the letter 
-                                if(ch > 'z'){                   // is a lower case letter. THis is because the ASCII values for Upper and Lower case letters are different 
-                                 ch = ch - 'z' + 'a' - 1;    // NEED TO INVESTIGATE WHAT THIS LINE DOES
-                             }
-                                     message[i] = ch;                // stores the encrypted letter forces loop to go to next letter
-                    } else if (ch >= 'A' && ch <= 'Z'){             // Same if statements as above but this time testing for 
-                         ch = ch + key;
-                         if (ch >'Z') {
-                             ch = ch - 'Z' + 'A' -1;             // NEED TO INVESTIGATE WHAT THIS LINE DOES
-                            }
-                    }
-                         message[i] = ch ;                           // stores the encrypted letter forces loop to go to next letter  
-            } 
+  // Encryption code for Caesar Cipher
+char Caesar_Encrypt( char ch, int i, int key) {
+    char message [100], ch
+    int i, key;
 
-                   return ch;   
-}     
+    for (i = 0; message[i] != '\0'; i ++ {
+        ch = message[i];
+        if (ch >= 'a' && ch <= 'z') {
+         ch = ch + key%26;
+            if ( ch > 'z') {
+             ch = ch - 'z' + 'a' - 1;
+         }
+         message[i] = ch
+      } else if (ch >= 'A' && ch <= 'Z' ) {
+            ch = ch + key%26;
+            if (ch > 'Z') {
+                ch = ch - 'Z' + 'A' -1;
+            }
+        } message[i] = ch
+    }
+return ch;
+}
 
+// Decryption code for Caesar Cipher
 
-char Caesar_Decryption (char ch, int i, int key) {  //definiton
- 
- char message[100], ch;  
-                            
-    int i, key;             
-                            
-    for(i = 0; message[i]!='\0'; ++i ) {        
-        ch = message[i];                         
-        if(ch>='a' && ch <= 'z') {
-            ch = ch - key;                    
-            if(ch < 'a'){                     
+char Caesar_decryption(char ch, int i, int key) {
+    char message[100], ch;
+    int i, key;
+    
+    for(i = 0; message[i] != '\0'; ++ i) {
+        if(ch >= 'a' && ch <= 'z') {
+            ch = ch - key%26;
+            if( ch < 'a') {
                 ch = ch + 'z' - 'a' + 1;
             }
-            message[i] = ch;                    
-        
-      } else if (ch >= 'A' && ch <= 'Z') {    
-            ch = ch - key;                    
-            if (ch < 'A'){
-               ch = ch + 'Z' - 'A' + 1;
+            message[i] = ch;
+            
+        } else if (ch >= 'A' && ch <= 'Z' ) {
+            ch = ch - key%26;
+            if (ch < 'A') {
+                ch = ch + 'Z' - 'A' + 1; 
+            }
         }
-       message[i] = ch ;                     
+        message[i] = ch
     }
-}
-
     return ch;
-
 }
 
+//find index of the character
+int find_index(char code[], char char_to_find) {
+    for(int i = 0; i < 26; i ++) {
+        if(code[i] == char_to_find){
+            return i;
+        }
+    }
+    return -1;
+}
+// Encryption code for monoalphabetic substitution cipher
+
+char *encrypt(char *message, char code []) {
+    int length = strlen(message);
+    char encrypted_message = (char *) malloc(sizeof(char)*length);
+    
+    for (int i = 0; i < length; i ++) {
+        int encryption_index = tolower(message[i]) - 'a';
+        if(encryption_index >= 0 && encryption_index < 26) {
+            encrypted_message[i] = code[encryption_index];
+        } else {
+            encrypted_message[i] = message[i];
+        }
+    }
+    return encrypted_message;
+}
+
+// Decryption code for monoalphabetic substitution cipher
+
+char *decrypt(char *message, char code[]) {
+    int length = strlen(message);
+    char *decrypted_message = (char *) malloc(sizeof(char)*length);
+    
+    for (int i = 0; i < length; i ++) {
+        int decryption_index = tolower(message[i]) - 'a'
+        if(decryption_index >= 0 && decryption_index < 26) {
+            int code_index = find_index(code, tolower(mesage[i]));
+            decrypted_message = 'a' + code_index;
+        } else {
+            decrypted_message = message;
+        }
+    }
+    return decrypted_message;
+}
   
 
 
