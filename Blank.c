@@ -5,9 +5,44 @@
 #include <ctype.h>
 #include <string.h>
 
+char* encrypt(char *message,char code[]){
+  int length = strlen(message);
+  char *encrypted_message = (char *) malloc(sizeof(char)*length);
 
+  for(int i = 0; i < length; i++){
+    int encryption_index = toupper(message[i]) - 'A';
+    if(encryption_index >= 0 && encryption_index < 26){
+      encrypted_message[i] = code[encryption_index];
+    }else{
+      encrypted_message[i] = message[i];
+    }
+  }
+  return encrypted_message;
+}
 
+int find_index(char codeDecrypt[],char char_to_find){
+  for(int i = 0 ; i < 26; i ++){
+    if(codeDecrypt[i] == char_to_find){
+      return i;
+    }
+  }
+  return -1;
+}
 
+char *decrypt(char *message,char codeDecrypt[]){
+  int length = strlen(message);
+  char *decrypted_message = (char *) malloc(sizeof(char)*length);
+  for(int i = 0; i <length; i++){
+    int decryption_index = tolower(message[i]) - 'a';
+    if(decryption_index >= 0 && decryption_index < 26){
+      int code_index = find_index(codeDecrypt,tolower(message[i]));
+      decrypted_message[i] = 'a' + code_index;
+    }else{
+      decrypted_message[i] = message[i];
+    }
+  }
+  return decrypted_message;
+}
 
 
 
@@ -17,7 +52,7 @@
 
 int main()
 {
-   int n = 2 ;
+   int n ;
    char message[1000];
    char ch;
    int key;
@@ -36,8 +71,7 @@ int main()
    
    printf("6. Decryption of a text message encrypted with a substitution Cipher (substitutions unknown)\n"); 
    
-   
-   //insert scanf here to control menu options
+   scanf("%d", &n);
  
    switch (n)
    {
@@ -90,11 +124,24 @@ int main()
 	
 	printf("Decrypted message: %s", message);    
         break;
-    case 3: printf("Encryption using a substitution Cipher");
+    case 3: printf("Encryption using a substitution Cipher \n");
     
-    
+    char *message = " TEST MESSAGE";
+    char code[26] = {'B','A','C','D','S','F','G','H','I','J','K','L','M','N','O','P','Q','R','E','T','U','V','W','X','Y','Z'};
+
+    char *encrypted_message = encrypt(message,code);
+    printf("Original Message: %s\nEncrypted Message: %s\n",message,encrypted_message);
+      
         break;
-    case 4: printf("Decryption using a substitution Cipher (substitutions are known)");
+    case 4: printf("Decryption using a substitution Cipher (substitutions are known)\n");
+    
+    char *Message_to_decrypt = "Tset Mseebgs";
+    printf("Encrypted Message: %s\n", Message_to_decrypt);
+    char Substitution_code[26] = {'b','a','c','d','s','f','g','h','i','j','k','l','m','n','o','p','q','r','e','t','u','v','w','x','y','z'};
+
+    char *decrypted_message = decrypt(Message_to_decrypt,Substitution_code);
+    printf("Decrypted Message: %s\n",decrypted_message);
+
     
     
         break;
