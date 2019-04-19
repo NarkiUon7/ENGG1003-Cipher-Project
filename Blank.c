@@ -95,7 +95,7 @@ int main()
 	printf("Encrypted message: %s", message);
             
         break;
-    case 2: printf("Decryption using a Caesar Cipher (rotation key known)\n");
+    case 2: printf("Decryption using a Caesar Cipher (rotation key known or unknown)\n");
 
 	
 	printf("Enter a message to decrypt: \n");
@@ -142,12 +142,15 @@ int main()
     char *decrypted_message = decrypt(Message_to_decrypt,Substitution_code);
     printf("Decrypted Message: %s\n",decrypted_message);
 
-    
-    
         break;
-    case 5: printf("Decryption of an unknown text piece encrypted with a Rotation Cipher (rotation key unknown");
-    
-    
+    case 5: printf("Decryption of a day 1 provided block of cipher encrypted with a substitution cipher\n");
+    char *Day_1_message = "N KBP JLCBKFCMCL FXEFH RYBJ KYF FXCEOIH WV LYKGCKLCKQ CFJ YIIYKBKFJ NKR ONACKQ FHBO JBB FHB ZCQHF, WEF XNFHBX WBLNEJB CFJ YIIYKBKFJ BGBKFENZZV RCB, NKR N KBP QBKBXNFCYK QXYPJ EI FHNF CJ MNOCZCNX PCFH CF. - ONU IZNKLA \n";
+    printf("Encrypted Message: %s\n", Day_1_message);
+    char Day_1_Substitution_code[26] = {'n','w','l','g','b','m','q','h','c','d','a','z','o','k','y','i','s','x','j','f','e','p','u','v','t'};
+
+    char *Day_1_decrypted_message = decrypt(Day_1_message,Day_1_Substitution_code);
+    printf("Decrypted Message: %s\n",Day_1_decrypted_message);
+     
         break;
     case 6: printf("Decryption of a text message encrypted with a substitution Cipher (substitutions unknown)");
     
