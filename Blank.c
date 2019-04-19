@@ -33,21 +33,16 @@ char *decrypt(char *message,char codeDecrypt[]){
   int length = strlen(message);
   char *decrypted_message = (char *) malloc(sizeof(char)*length);
   for(int i = 0; i <length; i++){
-    int decryption_index = tolower(message[i]) - 'a';
+    int decryption_index = toupper(message[i]) - 'A';
     if(decryption_index >= 0 && decryption_index < 26){
       int code_index = find_index(codeDecrypt,tolower(message[i]));
-      decrypted_message[i] = 'a' + code_index;
+      decrypted_message[i] = 'A' + code_index;
     }else{
       decrypted_message[i] = message[i];
     }
   }
   return decrypted_message;
 }
-
-
-
-
-
 
 
 int main()
@@ -127,7 +122,10 @@ int main()
     case 3: printf("Encryption using a substitution Cipher \n");
     
     char *message = " TEST MESSAGE";
-    char code[26] = {'B','A','C','D','S','F','G','H','I','J','K','L','M','N','O','P','Q','R','E','T','U','V','W','X','Y','Z'};
+    char code[26];
+    
+    printf("Enter Substitution code:  ");
+    scanf("%s", &code);
 
     char *encrypted_message = encrypt(message,code);
     printf("Original Message: %s\nEncrypted Message: %s\n",message,encrypted_message);
@@ -139,6 +137,9 @@ int main()
     printf("Encrypted Message: %s\n", Message_to_decrypt);
     char Substitution_code[26] = {'b','a','c','d','s','f','g','h','i','j','k','l','m','n','o','p','q','r','e','t','u','v','w','x','y','z'};
 
+    printf("Enter Substitution Code \n");
+    scanf("%s", &Substitution_code);
+    
     char *decrypted_message = decrypt(Message_to_decrypt,Substitution_code);
     printf("Decrypted Message: %s\n",decrypted_message);
 
@@ -146,6 +147,7 @@ int main()
     case 5: printf("Decryption of a day 1 provided block of cipher encrypted with a substitution cipher\n");
     char *Day_1_message = "N KBP JLCBKFCMCL FXEFH RYBJ KYF FXCEOIH WV LYKGCKLCKQ CFJ YIIYKBKFJ NKR ONACKQ FHBO JBB FHB ZCQHF, WEF XNFHBX WBLNEJB CFJ YIIYKBKFJ BGBKFENZZV RCB, NKR N KBP QBKBXNFCYK QXYPJ EI FHNF CJ MNOCZCNX PCFH CF. - ONU IZNKLA \n";
     printf("Encrypted Message: %s\n", Day_1_message);
+    
     char Day_1_Substitution_code[26] = {'n','w','l','g','b','m','q','h','c','d','a','z','o','k','y','i','s','x','j','f','e','p','u','v','t'};
 
     char *Day_1_decrypted_message = decrypt(Day_1_message,Day_1_Substitution_code);
@@ -165,7 +167,7 @@ return 0;
 }
 
 
-
+//= {'B','A','C','D','S','F','G','H','I','J','K','L','M','N','O','P','Q','R','E','T','U','V','W','X','Y','Z'};
 
 
 
