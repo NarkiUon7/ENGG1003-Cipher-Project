@@ -148,7 +148,7 @@ int main()
     char *Day_1_message = "N KBP JLCBKFCMCL FXEFH RYBJ KYF FXCEOIH WV LYKGCKLCKQ CFJ YIIYKBKFJ NKR ONACKQ FHBO JBB FHB ZCQHF, WEF XNFHBX WBLNEJB CFJ YIIYKBKFJ BGBKFENZZV RCB, NKR N KBP QBKBXNFCYK QXYPJ EI FHNF CJ MNOCZCNX PCFH CF. - ONU IZNKLA \n";
     printf("Encrypted Message: %s\n", Day_1_message);
     
-    char Day_1_Substitution_code[26] = {'n','w','l','g','b','m','q','h','c','d','a','z','o','k','y','i','s','x','j','f','e','p','u','v','t'};
+    char Day_1_Substitution_code[26] = {'n','w','l','r','b','m','q','h','c','d','a','z','o','k','y','i','s','x','j','f','e','g','p','u','v','t'};
 
     char *Day_1_decrypted_message = decrypt(Day_1_message,Day_1_Substitution_code);
     printf("Decrypted Message: %s\n",Day_1_decrypted_message);
