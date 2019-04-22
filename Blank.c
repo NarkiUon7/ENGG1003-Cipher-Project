@@ -74,7 +74,7 @@ int main()
     
 	
 	printf("Enter a message to encrypt:  \n");
-	fgets(message, sizeof(message), stdin);
+	scanf("%s", &message);
 	
 	printf("Enter key: \n");
 	scanf("%d", &key);
@@ -94,7 +94,7 @@ int main()
 
 	
 	printf("Enter a message to decrypt: \n");
-	fgets(message, sizeof(message), stdin);
+	scanf("%s", &message);
 	printf("Enter key: \n");
 	scanf("%d", &key);
 	
