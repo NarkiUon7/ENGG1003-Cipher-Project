@@ -76,8 +76,10 @@ int main()
 	printf("Enter a message to encrypt:  \n");
 	scanf("%s", &message);
 	
+	
 	printf("Enter key: \n");
 	scanf("%d", &key);
+	
 	
 	for(i = 0; message[i] != '\0'; ++i){
 		ch = message[i];
@@ -109,6 +111,7 @@ int main()
 	
 	printf("Enter a message to decrypt: \n");
 	scanf("%s", &message);
+	
 	printf("Enter key: \n");
 	scanf("%d", &key);
 	
