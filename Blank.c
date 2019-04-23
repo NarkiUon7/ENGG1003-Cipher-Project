@@ -79,14 +79,28 @@ int main()
 	printf("Enter key: \n");
 	scanf("%d", &key);
 	
-	for( int i = 0; message[i] != '\0'; i++) {
-	    if (message[i] >= 'A' && message[i] <= 'Z'){
-	        message[i] = (message[i] - 'A' + key) %26 + 'A';
-	    }
-	    if (message[i] >= 'a' && message[i] <= 'z') {
-	       message[i] = (message[i] - 'a' + key) %26 + 'a';
-	    }
-	}
+	for(i = 0; message[i] != '\0'; ++i){
+		ch = message[i];
+		
+		if(ch >= 'a' && ch <= 'z'){
+			ch = ch + key;
+			
+			if(ch > 'z'){
+				ch = ch - 'z' + 'a' - 1;
+			}
+			
+			message[i] = ch;
+		}
+		else if(ch >= 'A' && ch <= 'Z'){
+			ch = ch + key;
+			
+			if(ch > 'Z'){
+				ch = ch - 'Z' + 'A' - 1;
+			}
+			
+			message[i] = ch;
+		}
+	}	                                           
 	printf("Encrypted message: %s", message);
             
         break;
@@ -119,6 +133,7 @@ int main()
 	
 	printf("Decrypted message: %s", message);    
         break;
+        
     case 3: printf("Encryption using a substitution Cipher \n");
     
     char *message = " TEST MESSAGE";
@@ -135,7 +150,7 @@ int main()
     
     char *Message_to_decrypt = "Tset Mseebgs";
     printf("Encrypted Message: %s\n", Message_to_decrypt);
-    char Substitution_code[26] = {'b','a','c','d','s','f','g','h','i','j','k','l','m','n','o','p','q','r','e','t','u','v','w','x','y','z'};
+    char Substitution_code[26]; 
 
     printf("Enter Substitution Code \n");
     scanf("%s", &Substitution_code);
@@ -154,11 +169,7 @@ int main()
     printf("Decrypted Message: %s\n",Day_1_decrypted_message);
      
         break;
-    case 6: printf("Decryption of a text message encrypted with a substitution Cipher (substitutions unknown)");
-    
-    
-        break;
-        
+           
     default: printf("Please make Valid Selection");
     
     
