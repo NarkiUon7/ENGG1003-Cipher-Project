@@ -4,6 +4,12 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+//When it came to swapping the message input from hard coding to standard input for the substitution cipher, there are problems that i was unable to adress.//
+//So the actual message to encrypt/decrypt is hard coded in, and the code used to encrypt/decrypt is still done from standard input.
+// SO for the 'menu'
+// Line 1 on the input file controls the menu, as in what option is selected.
+// For the ROTATION CIPHERS ONLY, the message is inputed on line 2 and the key in inputed on line 3 for both encrypt and decrypt.
+//FOr the SUBSTITUTION CIPHERS ONLY, the message is hard coded in and the code is controled from line 2 of input.
 
 char* encrypt(char *message,char code[]){
   int length = strlen(message);
