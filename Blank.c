@@ -1,17 +1,24 @@
- #include <math.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-//When it came to swapping the message input from hard coding to standard input for the substitution cipher, there are problems that i was unable to adress.//
-//So the actual message to encrypt/decrypt is hard coded in, and the code used to encrypt/decrypt is still done from standard input.
-// SO for the 'menu'
+//When it came to swapping the message input from hard coding to standard input, there are problems that i was unable to adress.//
+//So the actual message to encrypt/decrypt is hard coded in, and the code used to encrypt/decrypt and the rotation key is still done from standard input.
+// SO for the 'menu':
 // Line 1 on the input file controls the menu, as in what option is selected.
 //Line 2 controls the key for ROTATION CIPHERS (case 1 and 2), and  controls the substitution code for case 3 and 4.
-// Case 5 is a day 1 provided piece of encrypted text so its hard coded in as to not forget what the substitution code is.
 
+// Case 5 is a day 1 provided piece of encrypted text so its hard coded in so i dont forget what the substitution code is.
 
+//For case 3, CODE MUST BE IN CAPS to print the encrypted message in caps
+// for case 4, CODE MUST BE IN LOWER CASE with text in upper case to print a message in upper case
+
+//Begninning of function prototyping and definition. Becasue i am fairly new to coding, i found it easier to have the function prototype and definition in 
+// the same place rather than the norm of having the prototype above the main code and the definition below the main code.
+
+// Function to encrypt a message using a substitution cipher.
 char* encrypt(char *message,char code[]){
   int length = strlen(message);
   char *encrypted_message = (char *) malloc(sizeof(char)*length);
@@ -27,6 +34,7 @@ char* encrypt(char *message,char code[]){
   return encrypted_message;
 }
 
+// FUnction to find the index of a character. (used in decryption only)
 int find_index(char codeDecrypt[],char char_to_find){
   for(int i = 0 ; i < 26; i ++){
     if(codeDecrypt[i] == char_to_find){
@@ -36,7 +44,8 @@ int find_index(char codeDecrypt[],char char_to_find){
   return -1;
 }
 
-char *decrypt(char *message,char codeDecrypt[]){
+// FUnction to decrypt a message that has been encryped using a substitution cipher.
+char *decrypt(char *message,char codeDecrypt[]){     //function prototype with name decrypt, char datatypes for the message
   int length = strlen(message);
   char *decrypted_message = (char *) malloc(sizeof(char)*length);
   for(int i = 0; i <length; i++){
@@ -51,39 +60,41 @@ char *decrypt(char *message,char codeDecrypt[]){
   return decrypted_message;
 }
 
-
+//Beginning of main body of code
 int main()
 {
-   int n ;
-  // char message[1000];
-   char ch;
-   int key;
-   int i;
+   int n ;              // int n controls the menu selection for the below printf options.
+   char ch;             // char ch is the variable that is assinged the individual characters being tested in the message
+   int key;             // int key represents the rotation key that is used to encrypt and decrypt rotation ciphers 
+   int i;               // int i represents  the individual string value that is being encrypted/decrypted
    printf("Please enter a valid Selection: \n");
    
    printf("1. Encryption using a Caesar Cipher\n");
    
-   printf("2. Decryption using a Caesar Cipher (rotation key known)\n");
+   printf("2. Decryption using a Caesar Cipher (rotation key known or unknown)\n");
    
    printf("3. Encryption using a substitution Cipher\n");
    
-   printf("4. Decryption using a substitution Cipher (substitutions are known)\n");
+   printf("4. Decryption using a substitution Cipher (substitutions are known or unknown)\n");
    
-   printf("5. Decryption of an unknown text piece encrypted with a Rotation Cipher (rotation key unknown )\n");
+   printf("5. Decryption of a day 1 provided text piece encrypted with a substitution Cipher (rotation key unknown )\n");
    
-   printf("6. Decryption of a text message encrypted with a substitution Cipher (substitutions unknown)\n"); 
+     
+   scanf("%d", &n);     //Reads the selection of n for the above options from input file.
    
-   scanf("%d", &n);
+   // menu system is controlled by a switch case where each of the above printf statements has code associated with it.
  
    switch (n)
    {
     case 1: printf("Encryption using a Caesar Cipher\n");
     
 	
-	char message_encrypt[1000] = "hello there its me";
+	char message_encrypt[1000] = "hello there its me";      //THis is the message to be encrypted. THe value 1000 is jsut to give a string length of 1000 characters so that large 
+                                                            // large bodies of text can me encrypted without exeeding the string limit, which would cause the code to fail.
+                                                            
 	
-	printf("Enter key: ");
-	scanf("%d", &key);
+	printf("Enter key: ");         // this requests user input for the key that they want to use to encrypt messages.
+	scanf("%d", &key);             // reads the inputed key from line 2 of the input file.
 	
 	for(i = 0; message_encrypt[i] != '\0'; ++i){
 		ch = message_encrypt[i];
@@ -161,7 +172,7 @@ int main()
         break;
     case 4: printf("Decryption using a substitution Cipher (substitutions are known)\n");
     
-    char *Message_to_decrypt = "TSET MSEEBGS";
+    char *Message_to_decrypt = "TSET MSEEAGS";
     printf("Encrypted Message: %s\n", Message_to_decrypt);
     char Substitution_code[26]; 
 
