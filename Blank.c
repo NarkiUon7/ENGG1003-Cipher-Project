@@ -55,9 +55,9 @@ int main()
 {
    int n ;
    char message[1000];
-   char ch;
+   //char ch;
    int key;
-   int i;
+  // int i;
    printf("Please enter a valid Selection: \n");
    
    printf("1. Encryption using a Caesar Cipher\n");
@@ -79,36 +79,23 @@ int main()
     case 1: printf("Encryption using a Caesar Cipher\n");
     
 	
-	printf("Enter a message to encrypt:  \n");
-	scanf("%s", &message);
+	printf("Enter a message to encrypt:  \n");                                           //printf("Enter a message to encrypt:  \n");
+	fgets(message, sizeof(message), stdin);
 	
+	//char *caesar_message = "Hello There";
 	
 	printf("Enter key: \n");
 	scanf("%d", &key);
 	
 	
-	for(i = 0; message[i] != '\0'; ++i){
-		ch = message[i];
-		
-		if(ch >= 'a' && ch <= 'z'){
-			ch = ch + key;
-			
-			if(ch > 'z'){
-				ch = ch - 'z' + 'a' - 1;
-			}
-			
-			message[i] = ch;
-		}
-		else if(ch >= 'A' && ch <= 'Z'){
-			ch = ch + key;
-			
-			if(ch > 'Z'){
-				ch = ch - 'Z' + 'A' - 1;
-			}
-			
-			message[i] = ch;
-		}
-	}	                                           
+	for( int i = 0; message[i] != '\0'; i++) {
+	    if (message[i] >= 'A' && message[i] <= 'Z'){
+	        message[i] = (message[i] - 'A' + key) %26 + 'A';
+	    }
+	   if (message[i] >= 'a' && message[i] <= 'z') {
+	       message[i] = (message[i] - 'a' + key) %26 + 'a';
+	   }
+	}                  
 	printf("Encrypted message: %s", message);
             
         break;
@@ -116,28 +103,18 @@ int main()
 
 	
 	printf("Enter a message to decrypt: \n");
-	scanf("%s", &message);
+	fgets(message, sizeof(message), stdin);       // fgets is used over scanf because scanf stops reading when it reaches white space and fgets does not.
 	
 	printf("Enter key: \n");
 	scanf("%d", &key);
 	
-	for(i = 0; message[i] != '\0'; ++i){
-		ch = message[i];
-		if(ch >= 'a' && ch <= 'z'){
-			ch = ch - key;
-			if(ch < 'a'){
-				ch = ch + 'z' - 'a' + 1;
-			}
-			message[i] = ch;
-		}
-		else if(ch >= 'A' && ch <= 'Z'){
-			ch = ch - key;
-			if(ch < 'A'){
-				ch = ch + 'Z' - 'A' + 1;
-			}
-			
-			message[i] = ch;
-		}
+	for( int i = 0; message[i] != '\0'; i++) {
+	    if (message[i] >= 'A' && message[i] <= 'Z'){
+	        message[i] = (message[i] - 'A' - key) %26 + 'A';
+	    }
+	   if (message[i] >= 'a' && message[i] <= 'z') {
+	       message[i] = (message[i] - 'a' - key) %26 + 'a';
+	   }
 	}
 	
 	printf("Decrypted message: %s", message);    
