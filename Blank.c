@@ -1,4 +1,4 @@
-#include <math.h>
+ #include <math.h>
 #include <stdio.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,8 +8,9 @@
 //So the actual message to encrypt/decrypt is hard coded in, and the code used to encrypt/decrypt is still done from standard input.
 // SO for the 'menu'
 // Line 1 on the input file controls the menu, as in what option is selected.
-// For the ROTATION CIPHERS ONLY, the message is inputed on line 2 and the key in inputed on line 3 for both encrypt and decrypt.
-//FOr the SUBSTITUTION CIPHERS ONLY, the message is hard coded in and the code is controled from line 2 of input.
+//Line 2 controls the key for ROTATION CIPHERS (case 1 and 2), and  controls the substitution code for case 3 and 4.
+// Case 5 is a day 1 provided piece of encrypted text so its hard coded in as to not forget what the substitution code is.
+
 
 char* encrypt(char *message,char code[]){
   int length = strlen(message);
@@ -54,10 +55,10 @@ char *decrypt(char *message,char codeDecrypt[]){
 int main()
 {
    int n ;
-   char message[1000];
-   //char ch;
+  // char message[1000];
+   char ch;
    int key;
-  // int i;
+   int i;
    printf("Please enter a valid Selection: \n");
    
    printf("1. Encryption using a Caesar Cipher\n");
@@ -79,45 +80,71 @@ int main()
     case 1: printf("Encryption using a Caesar Cipher\n");
     
 	
-	printf("Enter a message to encrypt:  \n");                                           //printf("Enter a message to encrypt:  \n");
-	fgets(message, sizeof(message), stdin);
+	char message_encrypt[1000] = "hello there its me";
 	
-	//char *caesar_message = "Hello There";
-	
-	printf("Enter key: \n");
+	printf("Enter key: ");
 	scanf("%d", &key);
 	
-	
-	for( int i = 0; message[i] != '\0'; i++) {
-	    if (message[i] >= 'A' && message[i] <= 'Z'){
-	        message[i] = (message[i] - 'A' + key) %26 + 'A';
-	    }
-	   if (message[i] >= 'a' && message[i] <= 'z') {
-	       message[i] = (message[i] - 'a' + key) %26 + 'a';
-	   }
-	}                  
-	printf("Encrypted message: %s", message);
-            
-        break;
-    case 2: printf("Decryption using a Caesar Cipher (rotation key known or unknown)\n");
-
-	
-	printf("Enter a message to decrypt: \n");
-	fgets(message, sizeof(message), stdin);       // fgets is used over scanf because scanf stops reading when it reaches white space and fgets does not.
-	
-	printf("Enter key: \n");
-	scanf("%d", &key);
-	
-	for( int i = 0; message[i] != '\0'; i++) {
-	    if (message[i] >= 'A' && message[i] <= 'Z'){
-	        message[i] = (message[i] - 'A' - key) %26 + 'A';
-	    }
-	   if (message[i] >= 'a' && message[i] <= 'z') {
-	       message[i] = (message[i] - 'a' - key) %26 + 'a';
-	   }
+	for(i = 0; message_encrypt[i] != '\0'; ++i){
+		ch = message_encrypt[i];
+		
+		if(ch >= 'a' && ch <= 'z'){
+			ch = ch + key;
+			
+			if(ch > 'z'){
+				ch = ch - 'z' + 'a' - 1;
+			}
+			
+			message_encrypt[i] = ch;
+		}
+		else if(ch >= 'A' && ch <= 'Z'){
+			ch = ch + key;
+			
+			if(ch > 'Z'){
+				ch = ch - 'Z' + 'A' - 1;
+			}
+			
+			message_encrypt[i] = ch;
+		}
 	}
 	
-	printf("Decrypted message: %s", message);    
+	printf("Encrypted message: %s", message_encrypt);
+	
+                
+        break;
+    case 2: printf("Decryption using a Caesar Cipher (rotation key known or unknown)\n"); 
+    
+    char message_decrypt[1000] = "khoor wkhuh lwv ph";
+
+	printf("Enter key: ");
+	scanf("%d", &key);
+	
+	for(i = 0; message_decrypt[i] != '\0'; ++i){
+		ch = message_decrypt[i];
+		
+		if(ch >= 'a' && ch <= 'z'){
+			ch = ch - key;
+			
+			if(ch < 'a'){
+				ch = ch + 'z' - 'a' + 1;
+			}
+			
+			message_decrypt[i] = ch;
+		}
+		else if(ch >= 'A' && ch <= 'Z'){
+			ch = ch - key;
+			
+			if(ch < 'A'){
+				ch = ch + 'Z' - 'A' + 1;
+			}
+			
+			message_decrypt[i] = ch;
+		}
+	}
+	
+	printf("Decrypted message: %s", message_decrypt);
+       
+    
         break;
         
     case 3: printf("Encryption using a substitution Cipher \n");
@@ -134,7 +161,7 @@ int main()
         break;
     case 4: printf("Decryption using a substitution Cipher (substitutions are known)\n");
     
-    char *Message_to_decrypt = "Tset Mseebgs";
+    char *Message_to_decrypt = "TSET MSEEBGS";
     printf("Encrypted Message: %s\n", Message_to_decrypt);
     char Substitution_code[26]; 
 
