@@ -22,22 +22,25 @@
 //The same place rather than the norm of having the prototype above the main code and the definition below the main code.
 
 //Function to encrypt a message using a substitution cipher.
-char* encrypt(char *message,char code[]){
-  int length = strlen(message);
-  char *encrypted_message = (char *) malloc(sizeof(char)*length);
+char* enigma_encrypt(char *message,char code[]){                                           
+  int length = strlen(message);                                             //This line gets the length of the message 
+  char *encrypted_message = (char *) malloc(sizeof(char)*length);           // Allocating space for encrypted message. 
 
   for(int i = 0; i < length; i++){
-    int encryption_index = toupper(message[i]) - 'A';
-    if(encryption_index >= 0 && encryption_index < 26){
-      encrypted_message[i] = code[encryption_index];
+    int encryption_index = toupper(message[i]) - 'A';                    //Converts the message and code to upper case to eleminate lower case letters and obtains the encryption index.
+    if(encryption_index >= 0 && encryption_index < 26){                  //Code in this if statement is exectued if the encryption index is betweeen 0 and 26  
+      encrypted_message[i] = code[encryption_index];                     //THe unencrypted message/letter becomes whatever the corresponding to the code. Basically mapping characters to an array
     }else{
-      encrypted_message[i] = message[i];
+      encrypted_message[i] = message[i];                                 // If the value for the encryption index is anything less than 0 or equal to and greater than 26, the letter is left unencrypted.
+      // This last line is for reading spcial characters and whitespaces as they have their own unique ASCII values that would be outside of the 0-26 range. hence they appear unencrypted.
     }
   }
-  return encrypted_message;
+  return encrypted_message;         //Once the function is complete, the encrypted message is the value that is returned.
 }
 
 //FUnction to find the index of a character. (used in decryption only)
+//This function is bascially here to find what the character being decrypted is substituted for in the substitution code.
+// The varaible that this is associated with is codeDecrypt found in the enigma_decrypt function.
 int find_index(char codeDecrypt[],char char_to_find){
   for(int i = 0 ; i < 26; i ++){
     if(codeDecrypt[i] == char_to_find){
@@ -48,19 +51,20 @@ int find_index(char codeDecrypt[],char char_to_find){
 }
 
 //FUnction to decrypt a message that has been encryped using a substitution cipher.
-char *decrypt(char *message,char codeDecrypt[]){     //function prototype with name decrypt, char datatypes for the message
-  int length = strlen(message);
-  char *decrypted_message = (char *) malloc(sizeof(char)*length);
+char *enigma_decrypt(char *message,char codeDecrypt[]){                  //Function prototype with name decrypt, char datatypes for the message
+  int length = strlen(message);                                          //This line gets the length of the message 
+  char *decrypted_message = (char *) malloc(sizeof(char)*length);        // Allocating space for decrypted message.     
   for(int i = 0; i <length; i++){
-    int decryption_index = toupper(message[i]) - 'A';
-    if(decryption_index >= 0 && decryption_index < 26){
-      int code_index = find_index(codeDecrypt,tolower(message[i]));
-      decrypted_message[i] = 'A' + code_index;
-    }else{
-      decrypted_message[i] = message[i];
+    int decryption_index = toupper(message[i]) - 'A';                    //Converts the message and code to upper case to eleminate lower case letters and obtains the decryption index.
+    if(decryption_index >= 0 && decryption_index < 26){                  //Code in this if statement is exectued if the decryption index is betweeen 0 and 26 
+      int code_index = find_index(codeDecrypt,tolower(message[i]));      //Takes the characer found from the subtitution code that is equivalant to the letter being decrypted. e.g. Encrypted A = unencrypted J
+      decrypted_message[i] = 'A' + code_index;                          //THe unencrypted message/letter becomes whatever the corresponding to the code by adding the code index which is a number between 0 and 25 to the ASCII value of A
+      }else{
+          decrypted_message[i] = message[i];                            // If the value for the encryption index is anything less than 0 or equal to and greater than 26, the letter is left unencrypted.
+      // This last line is for reading spcial characters and whitespaces as they have their own unique ASCII values that would be outside of the 0-26 range. hence they appear unencrypted.
     }
   }
-  return decrypted_message;
+  return decrypted_message;         //Once the function is complete, the decrypted message is the value that is returned.
 }
 
 //Beginning of main body of code
@@ -96,8 +100,9 @@ int main()
     case 1: printf("Encryption using a Caesar Cipher\n");
     
 	
-	char message_encrypt[1000] = "hello there its me";      //This is the message to be encrypted. THe value 1000 is jsut to give a string length of 1000 characters so that large 
-                                                            //Large bodies of text can be encrypted without exeeding the string limit, which would cause the code to fail.
+	char message_encrypt[1000] = "hello there its me";     
+	// Message_encrypt to be encrypted. THe value 1000 is jsut to give a string length of 1000 characters so that large 
+    //Large bodies of text can be encrypted without exeeding the string limit, which would cause the code to fail.
                                                             
 	
 	printf("Enter key: ");          // this requests user input for the key that they want to use to encrypt messages.
@@ -112,7 +117,7 @@ int main()
 	        message_encrypt[i] = (message_encrypt[i] - 'A' + key) %26 + 'A';        // the letter being encryped plus the key gives the encrypted letter.
 	    }  
 	    
-	// FOr the assingment, the above loop is necessary to deal with upper case letters. For lower case letters, the ASCII values in green are simply replaces with the lower case versions. 
+	// For the assingment, the above loop is necessary to deal with upper case letters. For lower case letters, the ASCII values in green are simply replaces with the lower case versions. 
 	// The if statement below is the same as the if statement above
 	    
 	   if (message_encrypt[i] >= 'a' && message_encrypt[i] <= 'z') {
@@ -127,8 +132,9 @@ int main()
         
     case 2: printf("Decryption using a Caesar Cipher (rotation key known or unknown)\n"); 
     
-    char message_decrypt[1000] = "khoor wkhuh lwv ph";       //Message that is to be decrypted. it is a string with a length of 1000 so as to well exceed the length of any possible text that could be given to endocde/decode.
-                                                             // If the length of a message exceeds the string length, the code will fail. IF this happens, simply increase the vaule located in [] to a larger value.
+    char message_decrypt[1000] = "khoor wkhuh lwv ph";       
+    //Message_decrypt that is to be decrypted. it is a string with a length of 1000 so as to well exceed the length of any possible text that could be given to endocde/decode.
+    //If the length of a message exceeds the string length, the code will fail. IF this happens, simply increase the vaule located in [] to a larger value.
                 
 	printf("Enter key: ");
 	scanf("%d", &key);
@@ -168,7 +174,7 @@ int main()
     
     //Other alternatives to avoid using scanf could be to use fscanf and read the substitution code from a file. From testing using scanf, as long as there are no spaces the use of scanf is fine.
 
-    char *encrypted_message = encrypt(message,code);                                            // This line calls the function titled 'encrypt' to ercrypt the message using the substitution code that is provided
+    char *encrypted_message = enigma_encrypt(message,code);                                            // This line calls the function titled 'encrypt' to ercrypt the message using the substitution code that is provided
     printf("Original Message: %s\nEncrypted Message: %s\n",message,encrypted_message);          // Prints the original message and the encrypted message to the machine using the runEncryption command. 
       
         break;      // Case has ended at this point so the code ends here at the break statement.
@@ -183,13 +189,13 @@ int main()
     printf("Enter Substitution Code \n");                           //Asks for user input for substitution code 
     scanf("%s", &Substitution_code);                                //This line reads substitution code from input file and stores it as a string variable
     
-    char *decrypted_message = decrypt(Message_to_decrypt,Substitution_code);            //THis line calls the function titled 'decrypt' to decrypt the message using the provided substitution code
+    char *decrypted_message = enigma_decrypt(Message_to_decrypt,Substitution_code);            //THis line calls the function titled 'decrypt' to decrypt the message using the provided substitution code
     printf("Decrypted Message: %s\n",decrypted_message);                                //The decrypted message is printed to the machine using the runEncryption command.
 
         break;      // Case has ended at this point so the code ends here at the break statement.
         
         
-    //The below case is a hard coded example of solving a substitution cipher. THis uses a day one provided piece of text with the substitution code unknown. This is simply here to show that I have solved a day one provided piece of text.
+    //The below case is a hard coded example of solving a substitution cipher. This uses a day one provided piece of text with the substitution code unknown. This is simply here to show that I have solved a day one provided piece of text.
     //Before solving a substitution cipher, it is best to perform statistical analysis on the text to try and identify common words to attepmt to identify some of the substitution code.
     //In this example there are 22 letters used, so the 4 remaining letters were guessed. 
     case 5: printf("Decryption of a day 1 provided block of cipher encrypted with a substitution cipher\n");
@@ -200,7 +206,7 @@ int main()
     
     char Day_1_Substitution_code[26] = {'n','w','l','r','b','m','q','h','c','d','a','z','o','k','y','i','s','x','j','f','e','g','p','u','v','t'};
 
-    char *Day_1_decrypted_message = decrypt(Day_1_message,Day_1_Substitution_code);
+    char *Day_1_decrypted_message = enigma_decrypt(Day_1_message,Day_1_Substitution_code);
     printf("Decrypted Message: %s\n",Day_1_decrypted_message);
      
         break;
