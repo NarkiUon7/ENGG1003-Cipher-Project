@@ -64,9 +64,9 @@ char *decrypt(char *message,char codeDecrypt[]){     //function prototype with n
 int main()
 {
    int n ;              // int n controls the menu selection for the below printf options.
-   char ch;             // char ch is the variable that is assinged the individual characters being tested in the message
+               // char ch is the variable that is assinged the individual characters being tested in the message
    int key;             // int key represents the rotation key that is used to encrypt and decrypt rotation ciphers 
-   int i;               // int i represents  the individual string value that is being encrypted/decrypted
+                  // int i represents  the individual string value that is being encrypted/decrypted
    printf("Please enter a valid Selection: \n");
    
    printf("1. Encryption using a Caesar Cipher\n");
@@ -96,27 +96,13 @@ int main()
 	printf("Enter key: ");         // this requests user input for the key that they want to use to encrypt messages.
 	scanf("%d", &key);             // reads the inputed key from line 2 of the input file.
 	
-	for(i = 0; message_encrypt[i] != '\0'; ++i){
-		ch = message_encrypt[i];
-		
-		if(ch >= 'a' && ch <= 'z'){
-			ch = ch + key;
-			
-			if(ch > 'z'){
-				ch = ch - 'z' + 'a' - 1;
-			}
-			
-			message_encrypt[i] = ch;
-		}
-		else if(ch >= 'A' && ch <= 'Z'){
-			ch = ch + key;
-			
-			if(ch > 'Z'){
-				ch = ch - 'Z' + 'A' - 1;
-			}
-			
-			message_encrypt[i] = ch;
-		}
+		for( int i = 0; message_encrypt[i] != '\0'; i++) {
+	    if (message_encrypt[i] >= 'A' && message_encrypt[i] <= 'Z'){
+	        message_encrypt[i] = (message_encrypt[i] - 'A' + key) %26 + 'A';
+	    }
+	   if (message_encrypt[i] >= 'a' && message_encrypt[i] <= 'z') {
+	       message_encrypt[i] = (message_encrypt[i] - 'a' + key) %26 + 'a';
+	   }
 	}
 	
 	printf("Encrypted message: %s", message_encrypt);
@@ -130,27 +116,13 @@ int main()
 	printf("Enter key: ");
 	scanf("%d", &key);
 	
-	for(i = 0; message_decrypt[i] != '\0'; ++i){
-		ch = message_decrypt[i];
-		
-		if(ch >= 'a' && ch <= 'z'){
-			ch = ch - key;
-			
-			if(ch < 'a'){
-				ch = ch + 'z' - 'a' + 1;
-			}
-			
-			message_decrypt[i] = ch;
-		}
-		else if(ch >= 'A' && ch <= 'Z'){
-			ch = ch - key;
-			
-			if(ch < 'A'){
-				ch = ch + 'Z' - 'A' + 1;
-			}
-			
-			message_decrypt[i] = ch;
-		}
+		for( int i = 0; message_decrypt[i] != '\0'; i++) {
+	    if (message_decrypt[i] >= 'A' && message_decrypt[i] <= 'Z'){
+	        message_decrypt[i] = (message_decrypt[i] - 'A' - key) %26 + 'A';
+	    }
+	   if (message_decrypt[i] >= 'a' && message_decrypt[i] <= 'z') {
+	       message_decrypt[i] = (message_decrypt[i] - 'a' - key) %26 + 'a';
+	   }
 	}
 	
 	printf("Decrypted message: %s", message_decrypt);
