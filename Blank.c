@@ -11,8 +11,8 @@
 
 //SO for the 'menu':
 //Line 1 on the input file controls the menu, as in what option is selected.
-//Line 2 controls the key for ROTATION CIPHERS (case 1 and 2), and  controls the substitution code for case 3 and 4.
-
+//Line 2 controls the message for ROTATION CIPHERS (case 1 and 2), and  controls the substitution code for case 3 and 4.
+//LIne 3 controls the key for the ROTATION CIPHERS only.
 //Case 5 is a day 1 provided piece of encrypted text so its hard coded in so i dont forget what the substitution code is.
 
 //For case 3, CODE MUST BE IN CAPS to print the encrypted message in caps
@@ -27,7 +27,7 @@ char* enigma_encrypt(char *message,char code[]){
   char *encrypted_message = (char *) malloc(sizeof(char)*length);           //Allocating space for encrypted message. 
 
   for(int i = 0; i < length; i++){
-    int encryption_i = toupper(message[i]) - 'A';                    //Converts the message and code to upper case to eleminate lower case letters and obtains the encryption index.
+    int encryption_i = (message[i]) - 'A';                          //Forces the encryption index (encryption_i) to be between 0 and 25 by substracting the ASCII value for A.
     if(encryption_i >= 0 && encryption_i < 26){                      //Code in this if statement is exectued if the encryption index is betweeen 0 and 26  
       encrypted_message[i] = code[encryption_i];                     //THe unencrypted message/letter becomes whatever the corresponding to the code. Basically mapping characters to an array
     }else{
@@ -41,7 +41,7 @@ char* enigma_encrypt(char *message,char code[]){
 //Function to find the index of a character. (used in decryption only)
 //This function is bascially here to find what the character being decrypted is substituted for in the substitution code.
 //The varaible that this is associated with is codeDecrypt found in the enigma_decrypt function.
-int find_index(char codeDecrypt[],char char_finder){
+int substitution_finder (char codeDecrypt[],char char_finder){
   for(int i = 0 ; i < 26; i ++){
     if(codeDecrypt[i] == char_finder){
       return i;
@@ -54,10 +54,11 @@ int find_index(char codeDecrypt[],char char_finder){
 char *enigma_decrypt(char *message,char codeDecrypt[]){                  //Function prototype with name decrypt, char datatypes for the message
   int length = strlen(message);                                          //This line gets the length of the message 
   char *decrypted_message = (char *) malloc(sizeof(char)*length);        //Allocating space for decrypted message.     
+  
   for(int i = 0; i <length; i++){
-    int decryption_index = toupper(message[i]) - 'A';                    //Converts the message and code to upper case to eleminate lower case letters and obtains the decryption index.
+    int decryption_index = (message[i]) - 'A';                          //Forces the values in the string to become between 0 and 25 by subtracting the ASCII value of A before decrypting
     if(decryption_index >= 0 && decryption_index < 26){                  //Code in this if statement is exectued if the decryption index is betweeen 0 and 26 
-      int code_index = find_index(codeDecrypt,tolower(message[i]));      //Takes the characer found from the subtitution code that is equivalant to the letter being decrypted. e.g. Encrypted A = unencrypted J
+      int code_index = substitution_finder(codeDecrypt,tolower(message[i]));      //Takes the characer found from the subtitution code that is equivalant to the letter being decrypted. e.g. Encrypted A = unencrypted J
       decrypted_message[i] = 'A' + code_index;                           //THe unencrypted message/letter becomes whatever the corresponding to the code by adding the code index which is a number between 0 and 25 to the ASCII value of A
       }else{
           decrypted_message[i] = message[i];                             //If the value for the encryption index is anything less than 0 or equal to and greater than 26, the letter is left unencrypted.
@@ -76,7 +77,7 @@ int main()
                         
                         
    //Below is a 'menu' system, which is a series of printf statements that are the titles for each case. Each case handles a specific part of the assingment based on the value its corresponds to in each printf statemnt.
-   //Any other value outside of the 5 that are shown below, e.g.  7, the code will print please make a valid selection.
+   //Any other value outside of the 5 that are shown below, e.g. 7, the code will print please make a valid selection.
    
    printf("Please enter a valid Selection: \n");
    
@@ -86,7 +87,7 @@ int main()
    
    printf("3. Encryption using a substitution Cipher\n");
    
-   printf("4. Decryption using a substitution Cipher (substitutions are known or unknown)\n");
+   printf("4. Decryption using a substitution Cipher (substitutions are known)\n");
    
    printf("5. Decryption of a day 1 provided text piece encrypted with a substitution Cipher (rotation key unknown )\n");
    
@@ -100,16 +101,18 @@ int main()
     case 1: printf("Encryption using a Caesar Cipher\n");
     
 	
-	char message_encrypt[1000] = "MON MOTHMA: THE DATA BROUGHT TO US BY THE BOTHAN SPIES PINPOINTS THE EXACT LOCATION OF THE EMPEROR'S NEW BATTLE STATION. WE ALSO KNOW THAT THE WEAPON SYSTEMS OF THIS DEATH STAR ARE NOT YET OPERATIONAL. WITH THE IMPERIAL FLEET SPREAD THROUGHOUT THE GALAXY IN A VAIN EFFORT TO ENGAGE US, IT IS RELATIVELY UNPROTECTED. BUT MOST IMPORTANT OF ALL, WE'VE LEARNED THAT THE EMPEROR HIMSELF IS PERSONALLY OVERSEEING THE FINAL STAGES OF THE CONSTRUCTION OF THIS DEATH STAR. MANY BOTHANS DIED TO BRING US THIS INFORMATION. ";     
-	// Message_encrypt to be encrypted. THe value 1000 is jsut to give a string length of 1000 characters so that large 
+	char message_encrypt[1000];                 // "MON MOTHMA: THE DATA BROUGHT TO US BY THE BOTHAN SPIES PINPOINTS THE EXACT LOCATION OF THE EMPEROR'S NEW BATTLE STATION. WE ALSO KNOW THAT THE WEAPON SYSTEMS OF THIS DEATH STAR ARE NOT YET OPERATIONAL. WITH THE IMPERIAL FLEET SPREAD THROUGHOUT THE GALAXY IN A VAIN EFFORT TO ENGAGE US, IT IS RELATIVELY UNPROTECTED. BUT MOST IMPORTANT OF ALL, WE'VE LEARNED THAT THE EMPEROR HIMSELF IS PERSONALLY OVERSEEING THE FINAL STAGES OF THE CONSTRUCTION OF THIS DEATH STAR. MANY BOTHANS DIED TO BRING US THIS INFORMATION. ";     
+	//Message_encrypt to be encrypted. THe value 1000 is jsut to give a string length of 1000 characters so that large 
     //Large bodies of text can be encrypted without exeeding the string limit, which would cause the code to fail.
-                                                            
+    
+    printf("Enter a Message to encrypt \n");
+    scanf("%s", &message_encrypt);
 	
 	printf("Enter key: ");          //This requests user input for the key that they want to use to encrypt messages.
-	scanf("%d", &key);              //Reads the inputed key from line 2 of the input file.
+	scanf("%d", &key);              //Reads the inputed key from line 3 of the input file.
 	
 	//The below for loop executes various code for upper and lower case letters startig at the first letter, i = 0. Once the code is executed, i is incrememted by 1 to the next letter and the code is tested again.
-	//Once there are no more letters to test (the end of the string has been reached), the code terminates. This is due to the condition in the for loop. As long as there are values to test. THis code will keep running/
+	//Once there are no more letters to test (the end of the string has been reached), the code terminates. This is due to the condition in the for loop. As long as there are values to test. THis code will keep running
 	//The '\0' in the condition is equivilant to null. THat is, there is no value to be tested
 	
 		for( int i = 0; message_encrypt[i] != '\0'; i++) {                          //for loop sets up the testing conditions for the string being tested starting at the first character. 
@@ -132,31 +135,35 @@ int main()
         
     case 2: printf("Decryption using a Caesar Cipher (rotation key known or unknown)\n"); 
     
-    char message_decrypt[1000] = "TVU TVAOTH AOL KHAH IYVBNOA AV BZ IF AOL IVAOHU ZWPLZ WPUWVPUAZ AOL LEHJA SVJHAPVU VM AOL LTWLYVY'Z ULD IHAASL ZAHAPVU. DL HSZV RUVD AOHA AOL DLHWVU ZFZALTZ VM AOPZ KLHAO ZAHY HYL UVA FLA VWLYHAPVUHS. DPAO AOL PTWLYPHS MSLLA ZWYLHK AOYVBNOVBA AOL NHSHEF PU H CHPU LMMVYA AV LUNHNL BZ, PA PZ YLSHAPCLSF BUWYVALJALK. IBA TVZA PTWVYAHUA VM HSS, DL'CL SLHYULK AOHA AOL LTWLYVY OPTZLSM PZ WLYZVUHSSF VCLYZLLPUN AOL MPUHS ZAHNLZ VM AOL JVUZAYBJAPVU VM AOPZ KLHAO ZAHY. THUF IVAOHUZ KPLK AV IYPUN BZ AOPZ PUMVYTHAPVU.";       
+    char message_decrypt[1000];         //This variable is the message to be decryped
+    
+    printf("Enter a message to decrypt \n");            //Asks for user input for a message to decrypt
+    scanf("%s", &message_decrypt);                      //Reads the message as a string from the input file
+         
     //Message_decrypt that is to be decrypted. it is a string with a length of 1000 so as to well exceed the length of any possible text that could be given to endocde/decode.
     //If the length of a message exceeds the string length, the code will fail. IF this happens, simply increase the vaule located in [] to a larger value.
                 
-	printf("Enter key: ");
-	scanf("%d", &key);
+	printf("Enter key: \n");           //Asks for user input for a rotation key
+	scanf("%d", &key);                 //Reads the chosen key form line 3 of input file
 	
 	//The below for loop executes various code for upper and lower case letters startig at the first letter, i = 0. Once the code is executed, i is incrememted by 1 to the next letter and the code is tested again.
 	//Once there are no more letters to test (the end of the string has been reached), the code terminates. This is due to the condition in the for loop. As long as there are values to test. THis code will keep running/
 	//The '\0' in the condition is equivilant to null. THat is, there is no value to be tested.
 	
 	//IMPORTANT NOTE: In the line "message_decrypt[i] = (message_decrypt[i] - 'A' + key) %26 + 'A';" the 'A' + key is actualy from the encryption case. This is deliberate.
-	// When that line is 'A' - key which is what its supposed to be, the values were not looping between the ascii values for 'A' and 'Z'. Meaning symbols like : and ? were being printed instead of the actual letter it is supposed to be.
-	//BEcause of this, the value for key is 26 - key.
+	//When that line is 'A' - key which is what its supposed to be, the values were not looping between the ascii values for 'A' and 'Z'. Meaning symbols like : and ? were being printed instead of the actual letter it is supposed to be.
+	//Because of this, the value for key is 26 - key for long texts only. For short texts, i.e. one word, the key workds as 
 	
 	
 		for( int i = 0; message_decrypt[i] != '\0'; ++i) {                          //for loop sets up the testing conditions for the string being tested starting at the first character.             
 	    if (message_decrypt[i] >= 'A' && message_decrypt[i] <= 'Z'){                //if statement for the values being tested between the ASCII values for upper case A and upper case Z
-	        message_decrypt[i] = (message_decrypt[i] - 'A' + key) %26 + 'A';        //the encrypted letter minus the key gives the decoded letter.
+	        message_decrypt[i] = (message_decrypt[i] - 'A' - key) %26 + 'A';        //the encrypted letter minus the key gives the decoded letter.
 	    } 
 	    
 	//For the assingment, the above loop is necessary to deal with upper case letters. For lower case letters, the ASCII values in green are simply replaces with the lower case versions. 
 	//The if statement below is the same as the if statement above.
 	   if (message_decrypt[i] >= 'a' && message_decrypt[i] <= 'z') {
-	       message_decrypt[i] = (message_decrypt[i] - 'a' + key) %26 + 'a';
+	       message_decrypt[i] = (message_decrypt[i] - 'a' - key) %26 + 'a';
 	   }
 	}
 	
@@ -168,10 +175,9 @@ int main()
         
     case 3: printf("Encryption using a substitution Cipher \n");
     
-    char *message = " TEST MESSAGE";            
-    //This is the message to be encrypted set up as a string of ASCII values. The text must me in upper case
+    char *message = " TEST MESSAGE";       //This is the message to be encrypted set up as a string of ASCII values. The text must me in upper case
     
-    char code[26];                              //his variable represents the substitution code.  
+    char code[26];                         //This variable represents the substitution code. THe code here must be in capital letters.  
     
     //For substitution ciphers. A letter of the alphabet is replaced or substituted with antoher. In coding, this can be represented numerically using ASCII values.
     //This code opperates on the assumption that the substitution cipher is a monoalphabetic substitution cipher as opposed to a polyalphabetic substitutino cipher.
@@ -206,9 +212,15 @@ int main()
         
     //The below case is a hard coded example of solving a substitution cipher. This uses a day one provided piece of text with the substitution code unknown. This is simply here to show that I have solved a day one provided piece of text.
     //Before solving a substitution cipher, it is best to perform statistical analysis on the text to try and identify common words to attepmt to identify some of the substitution code.
-    //In this example there are 22 letters used, so the 4 remaining letters were guessed. 
-    case 5: printf("Decryption of a day 1 provided block of cipher encrypted with a substitution cipher\n");
+    //In this example there are 22 letters used, so the 4 remaining letters were guessed.
     
+    case 5: printf("Decryption of a day 1 provided block of cipher encrypted with a substitution cipher\n");
+    //For this case, the text was a quote from a famous physicists being the clue. THe name of that physicists is left at the end of the quote. Text analysis at http://textalyser.net/ indicated that the name was MAX PLANCK
+    //From there those letters were asummed along with other assumptions. For example the letter F in the message appears at the start and throughout many worrds in this message. This was assumed to be the letter T
+    //Text analysis was done outside of this code to get an decrypted alphabet to then map the decrypted alphabet to the encrypted message.
+    //From this the 22 letters that were used was correctly solved.
+    //I wrote this ages before the changes to the mark allocations on the 29th April 2019. I assumed that the substituition code could be figured out by text analysis and by hand and then use the code to map the substitution code to the message.
+    //I understand if i get 0 marks for this section but i was unaware that the statistical analysis and the substitution calculations had to be done inside the code.
     
     char *Day_1_message = "N KBP JLCBKFCMCL FXEFH RYBJ KYF FXCEOIH WV LYKGCKLCKQ CFJ YIIYKBKFJ NKR ONACKQ FHBO JBB FHB ZCQHF, WEF XNFHBX WBLNEJB CFJ YIIYKBKFJ BGBKFENZZV RCB, NKR N KBP QBKBXNFCYK QXYPJ EI FHNF CJ MNOCZCNX PCFH CF. - ONU IZNKLA \n";
     printf("Encrypted Message: %s\n", Day_1_message);
@@ -230,8 +242,8 @@ return 0;
 
 //= {'B','A','C','D','S','F','G','H','I','J','K','L','M','N','O','P','Q','R','E','T','U','V','W','X','Y','Z'};
 
-
-
+//bacdsfghijklmnopqretuvwxyz  CASE 4
+//BACDSFGHIJKLMNOPQRETUVWXYZ  CASE 3
 
 
 
