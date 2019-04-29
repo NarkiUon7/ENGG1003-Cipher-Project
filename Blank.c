@@ -135,11 +135,8 @@ int main()
         
     case 2: printf("Decryption using a Caesar Cipher (rotation key known or unknown)\n"); 
     
-    char message_decrypt[1000];         //This variable is the message to be decryped
-    
-    printf("Enter a message to decrypt \n");            //Asks for user input for a message to decrypt
-    scanf("%s", &message_decrypt);                      //Reads the message as a string from the input file
-         
+    char message_decrypt[1000] = "khoor cheud";         //This variable is the message to be decryped
+        
     //Message_decrypt that is to be decrypted. it is a string with a length of 1000 so as to well exceed the length of any possible text that could be given to endocde/decode.
     //If the length of a message exceeds the string length, the code will fail. IF this happens, simply increase the vaule located in [] to a larger value.
                 
@@ -157,13 +154,13 @@ int main()
 	
 		for( int i = 0; message_decrypt[i] != '\0'; ++i) {                          //for loop sets up the testing conditions for the string being tested starting at the first character.             
 	    if (message_decrypt[i] >= 'A' && message_decrypt[i] <= 'Z'){                //if statement for the values being tested between the ASCII values for upper case A and upper case Z
-	        message_decrypt[i] = (message_decrypt[i] - 'A' - key) %26 + 'A';        //the encrypted letter minus the key gives the decoded letter.
+	        message_decrypt[i] = (message_decrypt[i] - 'A' + key) %26 + 'A';        //the encrypted letter minus the key gives the decoded letter.
 	    } 
 	    
 	//For the assingment, the above loop is necessary to deal with upper case letters. For lower case letters, the ASCII values in green are simply replaces with the lower case versions. 
 	//The if statement below is the same as the if statement above.
 	   if (message_decrypt[i] >= 'a' && message_decrypt[i] <= 'z') {
-	       message_decrypt[i] = (message_decrypt[i] - 'a' - key) %26 + 'a';
+	       message_decrypt[i] = (message_decrypt[i] - 'a' + key) %26 + 'a';
 	   }
 	}
 	
@@ -231,7 +228,8 @@ int main()
     printf("Decrypted Message: %s\n",Day_1_decrypted_message);
      
         break;
-           
+    
+
     default: printf("Please make Valid Selection");         //This is the default statement that is used atthe end of a switch case when a value that is not associated with a case is chosen, or no break statements are found.
     
     
